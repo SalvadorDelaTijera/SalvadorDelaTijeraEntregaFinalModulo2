@@ -62,7 +62,7 @@ export const CartSchema = new Schema({
 CartSchema.plugin(MongoosePaginate);
 
 CartSchema.plugin(MongooseDelete, {
-  indexFields: ["delete", "deletedAt"],
+  indexFields: ["deleted", "deletedAt"],
   overrideMethods: "all",
 });
 
