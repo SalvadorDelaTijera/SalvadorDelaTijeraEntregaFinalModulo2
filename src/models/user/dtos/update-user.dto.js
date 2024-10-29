@@ -1,5 +1,9 @@
 import { hash } from 'bcrypt';
-import { updateUserSchema, USER_PASSWORD_SALT_ROUNDS } from '../../../constants/user.constants.js';
+import {
+  updateUserSchema,
+  USER_PASSWORD_SALT_ROUNDS,
+  USER_ROLES,
+} from '../../../constants/user.constants.js';
 
 export default class UpdateUserDTO {
   static async from(object) {
@@ -26,19 +30,19 @@ export default class UpdateUserDTO {
         if (object.firstName) {
           Object.defineProperty(dto, "firstName", {
             enumerable: true,
-            value: object.firstName
+            value: object.firstName.trim(),
           });
         }
 
         if (object.lastName) {
           Object.defineProperty(dto, "lastName", {
             enumerable: true,
-            value: object.lastName
+            value: object.lastName.trim(),
           });
         }
 
         if (object.roles && object.roles.length > 0) {
-          const roles = object.roles.map((role) => role.toLowerCase());
+          const roles = object.roles.map((role) => USER_ROLES[role.toUppeCase()]);
           Object.defineProperty(dto, "roles", {
             enumerable: true,
             value: roles,

@@ -7,7 +7,6 @@ export const UserSchema = new Schema({
     type: String,
     required: true,
     unique: true,
-    minLength: 1,
   },
   password: {
     type: String,
@@ -16,17 +15,15 @@ export const UserSchema = new Schema({
   firstName: {
     type: String,
     required: true,
-    minLength: 1,
   },
   lastName: {
     type: String,
     required: true,
-    minLength: 1,
   },
   roles: {
     type: [String],
     required: true,
-    default: ['user'],
+    default: ['USER'],
   },
 }, {
   timestamps: true,

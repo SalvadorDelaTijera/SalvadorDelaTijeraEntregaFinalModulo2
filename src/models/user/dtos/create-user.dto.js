@@ -1,5 +1,9 @@
 import { hash } from 'bcrypt';
-import { createUserSchema, USER_PASSWORD_SALT_ROUNDS } from '../../../constants/user.constants.js';
+import {
+  createUserSchema,
+  USER_PASSWORD_SALT_ROUNDS,
+  USER_ROLES,
+} from '../../../constants/user.constants.js';
 
 export default class CreateUserDTO {
   static async from(object) {
@@ -12,17 +16,17 @@ export default class CreateUserDTO {
 
       const password = await hash(object.password, USER_PASSWORD_SALT_ROUNDS);
 
-      const roles = object.roles.map((role) => role.toLowerCase());
+      const roles = object.roles.map((role) => USER_ROLES[role.toUpperCase()]);
 
-      if (roles.length === 0 && !roles.includes("user")) {
-        roles.push("user");
+      if (roles.length === 0 && !roles.includes(USER_ROLES.USER)) {
+        roles.push(USER_ROLES.USER);
       }
 
       return {
-        email: object.email,
+        email: object.email.trim(),
         password,
-        firstName: object.firstName,
-        lastName: object.lastName,
+        firstName: object.firstName.trim(),
+        lastName: object.lastName.trim(),
         roles,
       };
     } catch (error) {
